@@ -95,6 +95,10 @@ class LocationService:
         return location
 
     @staticmethod
+    def retrieve_all() -> List[Location]:
+        return db.session.query(Location).all()
+
+    @staticmethod
     def create(location: Dict) -> Location:
         validation_results: Dict = LocationSchema().validate(location)
         if validation_results:
@@ -127,6 +131,7 @@ class PersonService:
     @staticmethod
     def retrieve(person_id: int) -> Person:
         person = db.session.query(Person).get(person_id)
+        logger.info("person", person)
         return person
 
     @staticmethod

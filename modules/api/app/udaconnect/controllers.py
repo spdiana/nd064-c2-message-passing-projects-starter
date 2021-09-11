@@ -22,22 +22,28 @@ api = Namespace("UdaConnect", description="Connections via geolocation.")  # noq
 
 @api.route("/locations")
 @api.route("/locations/<location_id>")
-@api.param("location_id", "Unique ID for a given Location", _in="query")
 class LocationResource(Resource):
     @accepts(schema=LocationSchema)
     @responds(schema=LocationSchema)
     def post(self) -> Location:
-        request.get_json()
-        location: Location = LocationService.create(request.get_json())
-        return location
+        payload = request.get_json()
+        new_location: Location = LocationService.create(payload)
+        return new_location
 
-    @responds(schema=LocationSchema)
-    def get(self, location_id) -> Location:
-        location: Location = LocationService.retrieve(location_id)
-        return location
+    @responds(schema=LocationSchema, many=True)
+    def get(self) -> Location:
+        loc_id = request.args.get('location_id')
+        if loc_id:
+            location: Location = LocationService.retrieve(loc_id)
+            locations: list = [location]
+            return locations
+        else:
+            location: List[Location] = LocationService.retrieve_all()
+            return location
 
 
 @api.route("/persons")
+@api.route("/persons/<person_id>")
 class PersonsResource(Resource):
     @accepts(schema=PersonSchema)
     @responds(schema=PersonSchema)
@@ -47,15 +53,26 @@ class PersonsResource(Resource):
         return new_person
 
     @responds(schema=PersonSchema, many=True)
-    def get(self) -> List[Person]:
-        persons: List[Person] = PersonService.retrieve_all()
-        return persons
+    def get(self) -> Person:
+        person_id = request.args.get('person_id')
+        if person_id:
+            person: Person = PersonService.retrieve(person_id)
+            persons: list = [person]
+            return persons
+        else:
+            persons: List[Person] = PersonService.retrieve_all()
+            return persons
+
+    # @responds(schema=PersonSchema, many=True)
+    # def get(self) -> List[Person]:
+    #     persons: List[Person] = PersonService.retrieve_all()
+    #     return persons
 
 
 @api.route("/persons/<person_id>")
 @api.param("person_id", "Unique ID for a given Person", _in="query")
-class PersonResource(Resource):
-    @responds(schema=PersonSchema)
+class PersonResourceId(Resource):
+    @responds(schema=PersonSchema, )
     def get(self, person_id) -> Person:
         person: Person = PersonService.retrieve(person_id)
         return person
