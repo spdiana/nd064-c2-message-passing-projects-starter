@@ -30,15 +30,15 @@ class KafkaEventServicer(person_kafka_event_pb2_grpc.PersonEventItemServiceServi
     def Create(self, request, context):
         request_value = {
             'person_id': int(request.person_id),
-            'latitude': int(request.latitude),
-            'longitude': int(request.longitude)
+            'latitude': float(request.latitude),
+            'longitude': float(request.longitude)
         }
 
         logging.info('creating event ', request_value)
         print(request_value)
 
-        user_encode_data = json.dumps(request_value, indent=2).encode('utf-8')
-        producer.send(kafka_topic, user_encode_data)
+        kafka_data = json.dumps(request_value).encode()
+        producer.send(kafka_topic, kafka_data)
         producer.flush()
         return person_kafka_event_pb2.PersonEventMessage(**request_value)
 

@@ -14,15 +14,15 @@ stub = person_kafka_event_pb2_grpc.PersonEventItemServiceStub(channel)
 
 # Update this with desired payload
 person1 = person_kafka_event_pb2.PersonEventMessage(
-    person_id=1223,
-    latitude=-100,
-    longitude=30
+    person_id=1,
+    latitude=-35.0585136,
+    longitude=106.5719521
 )
 
 person2 = person_kafka_event_pb2.PersonEventMessage(
-    person_id=1224,
-    latitude=-100,
-    longitude=30
+    person_id=1,
+    latitude=-35.0585136,
+    longitude=106.5719521
 )
 
 response_1 = stub.Create(person1)

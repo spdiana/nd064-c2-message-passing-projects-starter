@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x18person_kafka_event.proto\"L\n\x12PersonEventMessage\x12\x11\n\tperson_id\x18\x01 \x01(\x05\x12\x10\n\x08latitude\x18\x02 \x01(\x05\x12\x11\n\tlongitude\x18\x03 \x01(\x05\"\x07\n\x05\x45mpty2p\n\x16PersonEventItemService\x12\x32\n\x06\x43reate\x12\x13.PersonEventMessage\x1a\x13.PersonEventMessage\x12\"\n\x03Get\x12\x06.Empty\x1a\x13.PersonEventMessageb\x06proto3'
+  serialized_pb=b'\n\x18person_kafka_event.proto\"L\n\x12PersonEventMessage\x12\x11\n\tperson_id\x18\x01 \x01(\x05\x12\x10\n\x08latitude\x18\x02 \x01(\x01\x12\x11\n\tlongitude\x18\x03 \x01(\x01\"\x07\n\x05\x45mpty2p\n\x16PersonEventItemService\x12\x32\n\x06\x43reate\x12\x13.PersonEventMessage\x1a\x13.PersonEventMessage\x12\"\n\x03Get\x12\x06.Empty\x1a\x13.PersonEventMessageb\x06proto3'
 )
 
 
@@ -42,15 +42,15 @@ _PERSONEVENTMESSAGE = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='latitude', full_name='PersonEventMessage.latitude', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='longitude', full_name='PersonEventMessage.longitude', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),

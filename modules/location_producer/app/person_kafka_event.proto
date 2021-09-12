@@ -2,8 +2,8 @@ syntax = "proto3";
 
 message PersonEventMessage {
   int32 person_id = 1;
-  int32 latitude = 2;
-  int32 longitude = 3;
+  double latitude = 2;
+  double longitude = 3;
 }
 
 message Empty {
