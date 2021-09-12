@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message PersonEventMessage {
+  int32 person_id = 1;
+  int32 latitude = 2;
+  int32 longitude = 3;
+}
+
+message Empty {
+
+}
+
+service PersonEventItemService {
+  rpc Create(PersonEventMessage) returns (PersonEventMessage);
+  rpc Get(Empty) returns (PersonEventMessage);
+}
