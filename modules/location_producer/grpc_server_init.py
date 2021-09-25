@@ -2,6 +2,7 @@ import time
 import json
 import logging
 import grpc
+import os
 
 import person_kafka_event_pb2
 import person_kafka_event_pb2_grpc
@@ -10,11 +11,11 @@ from kafka import KafkaProducer
 from concurrent import futures
 
 
-# kafka_url = os.environ["KAFKA_URL"]
-# kafka_topic = os.environ["KAFKA_TOPIC"]
+kafka_url = os.environ["KAFKA_URL"]
+kafka_topic = os.environ["KAFKA_TOPIC"]
 
-kafka_url = "localhost:9092"
-kafka_topic = "quickstart-events"
+# kafka_url = "localhost:9092"
+# kafka_topic = "demo-data-topic"
 
 logging.info('connecting to kafka ', kafka_url)
 print('p_connecting to kafka ', kafka_url)

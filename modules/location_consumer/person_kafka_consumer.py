@@ -3,22 +3,22 @@ import os
 
 from kafka import KafkaConsumer
 
-# DB_USERNAME = os.environ["DB_USERNAME"]
-# DB_PASSWORD = os.environ["DB_PASSWORD"]
-# DB_HOST = os.environ["DB_HOST"]
-# DB_PORT = os.environ["DB_PORT"]
-# DB_NAME = os.environ["DB_NAME"]
-# KAFKA_URL = os.environ["KAFKA_URL"]
-# TOPIC_NAME = os.environ["KAFKA_TOPIC"]
+DB_USERNAME = os.environ["DB_USERNAME"]
+DB_PASSWORD = os.environ["DB_PASSWORD"]
+DB_HOST = os.environ["DB_HOST"]
+DB_PORT = os.environ["DB_PORT"]
+DB_NAME = os.environ["DB_NAME"]
+KAFKA_URL = os.environ["KAFKA_URL"]
+TOPIC_NAME = os.environ["KAFKA_TOPIC"]
 
 
-DB_USERNAME = "postgres"
-DB_PASSWORD = "docker"
-DB_HOST = "localhost"
-DB_PORT = 5432
-DB_NAME = "postgres"
-KAFKA_URL = "localhost:9092"
-TOPIC_NAME = "quickstart-events"
+# DB_USERNAME = "postgres"
+# DB_PASSWORD = "docker"
+# DB_HOST = "localhost"
+# DB_PORT = 5432
+# DB_NAME = "postgres"
+# KAFKA_URL = "localhost:9092"
+# TOPIC_NAME = "demo-data-topic"
 
 consumer = KafkaConsumer(TOPIC_NAME, bootstrap_servers=[KAFKA_URL])
 

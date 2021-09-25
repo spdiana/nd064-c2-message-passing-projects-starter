@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  KAFKA_URL: kafka.default.svc.cluster.local:9092
+  KAFKA_TOPIC: demo-data-topic
+metadata:
+  name: kafka-location-map
+
+
