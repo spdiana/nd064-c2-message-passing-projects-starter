@@ -1,0 +1,30 @@
+GRPC documentation of your endpoint and how to make a sample request:
+
+GRPC service is implemented on location_consumer API.
+Messages will be sent and wrote on kafka broker.
+The message contains:
+
+message PersonEventMessage {
+  int32 person_id = 1;
+  double latitude = 2;
+  double longitude = 3;
+}
+
+Steps to run:
+
+Running grpc proto (already created), just need run deployment following Readme:
+python -m grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ person_kafka_event.proto
+
+
+On kubernetes access the pod via bash:
+kubectl exec -it <POD_NAME> bash
+ex: kubectl exec -it location-producer-api-644f8f4c6b-r7kc6  bash
+
+Start the GRPC Server:
+python grpc_server_init.py
+
+Sending message:
+python grpc_writer.py
+
+
+Screenshots on folder docs/grpc_screenshot

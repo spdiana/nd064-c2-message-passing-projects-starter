@@ -91,20 +91,44 @@ Type `exit` to exit the virtual OS and you will find yourself back in your compu
 Create the file (or replace if it already exists) `~/.kube/config` and paste the contents of the `k3s.yaml` output here.
 
 Afterwards, you can test that `kubectl` works by running a command like `kubectl describe services`. It should not return any errors.
-
-### Steps
+### SETUP
+### Steps Envs
 1. `kubectl apply -f deployment/db-configmap.yaml` - Set up environment variables for the pods
 2. `kubectl apply -f deployment/db-secret.yaml` - Set up secrets for the pods
 3. `kubectl apply -f deployment/postgres.yaml` - Set up a Postgres database running PostGIS
 4. `kubectl apply -f deployment/kafka-configmap.yaml` - Set up Kafka env
-5. `kubectl apply -f deployment/zookeeper.yaml` - Set up Zookeeper service
-8. `kubectl apply -f deployment/api-connection.yaml` - Set up the service and deployment for the API Connection
-9. `kubectl apply -f deployment/api-location.yaml` - Set up the service and deployment for the API Location
-10. `kubectl apply -f deployment/api-person.yaml` - Set up the service and deployment for the API Person
-11. `kubectl apply -f deployment/api-location-consumer.yaml` - Set up the service and deployment for the API Location Consumer
-12. `kubectl apply -f deployment/api-location-producer.yaml` - Set up the service and deployment for the API Location Producer
-13. `kubectl apply -f deployment/frontend-udaconnect-app.yaml` - Set up the service and deployment for the web app
-14. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
+
+### Steps Kafka
+5. Kafka was deployed following the tutorial: https://docs.bitnami.com/tutorials/deploy-scalable-kafka-zookeeper-cluster-kubernetes/
+6. `brew install helm` - Install helm
+7. `helm init` - Init helm
+8. `helm repo add bitnami https://charts.bitnami.com/bitnami` - Add the Bitnami charts repository to Helm
+9. Execute the following command to deploy an Apache Zookeeper cluster with one node
+   `helm install zookeeper bitnami/zookeeper \
+   --set replicaCount=1 \
+   --set auth.enabled=false \
+   --set allowAnonymousLogin=true`
+10. Copy the Zookeeper service name displayed, check the folder docs/kafka_screenshot
+11. Execute the following command, replacing the ZOOKEEPER-SERVICE-NAME placeholder with the Apache Zookeeper service name copied on previous step
+    `helm install kafka bitnami/kafka \
+    --set zookeeper.enabled=false \
+    --set replicaCount=1 \
+    --set externalZookeeper.servers=ZOOKEEPER-SERVICE-NAME`
+12. Execute the following command
+    `export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=kafka,app.kubernetes.io/instance=kafka,app.kubernetes.io/component=kafka" -o jsonpath="{.items[0].metadata.name}")`
+13. Execute the following command to create the kafka topic, replace the ZOOKEEPER-SERVICE-NAME placeholder with the Apache Zookeeper service name 
+    `kubectl --namespace default exec -it $POD_NAME -- kafka-topics.sh --create --zookeeper ZOOKEEPER-SERVICE-NAME:2181 --replication-factor 1 --partitions 1 --topic demo-data-topic`
+
+### Steps APIs
+6. `kubectl apply -f deployment/api-connection.yaml` - Set up the service and deployment for the API Connection
+7. `kubectl apply -f deployment/api-location.yaml` - Set up the service and deployment for the API Location
+8. `kubectl apply -f deployment/api-person.yaml` - Set up the service and deployment for the API Person
+9. `kubectl apply -f deployment/api-location-consumer.yaml` - Set up the service and deployment for the API Location Consumer
+10. `kubectl apply -f deployment/api-location-producer.yaml` - Set up the service and deployment for the API Location Producer
+11. `kubectl apply -f deployment/frontend-udaconnect-app.yaml` - Set up the service and deployment for the web app
+
+### Steps Load database
+13. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
 
 
 Manually applying each of the individual `yaml` files is cumbersome but going through each step provides some context on 
