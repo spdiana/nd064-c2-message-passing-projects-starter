@@ -1,0 +1,235 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "OpenAPi UdaConnect"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "udaconnect.swagger.io"
+basePath: "/v2"
+tags:
+- name: "person"
+  description: "Operation about Person"
+- name: "location"
+  description: "Operation about Location"
+- name: "connection"
+  description: "Access connection list"
+schemes:
+- "http"
+paths:
+  /api/persons:
+    post:
+      tags:
+      - "person"
+      summary: "Add a new person"
+      description: ""
+      operationId: "addPerson"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Person object that needs to be added to the Udaconnect"
+        required: true
+        schema:
+          $ref: "#/definitions/Person"
+      responses:
+        "201":
+          description: "created new person"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Person"
+        "400":
+          description: "bad input parameter"  
+    get:
+      tags:
+      - "person"
+      summary: "Finds Person"
+      description: ""
+      operationId: "findPerson"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Person"
+        "400":
+          description: "Invalid status value"
+  /api/persons/{personId}:
+    get:
+      tags:
+      - "person"
+      summary: "Find person by ID"
+      description: ""
+      operationId: "getPersonById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "personId"
+        in: "path"
+        description: "ID of person that needs to be fetched"
+        required: true
+        type: "integer"
+        maximum: 10.0
+        minimum: 1.0
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Person"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Person not found"
+  /api/locations:
+    post:
+      tags:
+      - "location"
+      summary: "Add a new location"
+      description: ""
+      operationId: "addLocation"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Location object that needs to be added to the Udaconnect"
+        required: true
+        schema:
+          $ref: "#/definitions/Location"
+      responses:
+        "201":
+          description: "created new Location"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Location"
+        "400":
+          description: "bad input parameter"  
+    get:
+      tags:
+      - "location"
+      summary: "Finds Location"
+      description: ""
+      operationId: "findLocation"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Location"
+        "400":
+          description: "Invalid status value"
+  /api/locations/{locationId}:
+    get:
+      tags:
+      - "location"
+      summary: "Find Location by ID"
+      description: ""
+      operationId: "getLocationById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "locationId"
+        in: "path"
+        description: "ID of Location that needs to be fetched"
+        required: true
+        type: "integer"
+        maximum: 10.0
+        minimum: 1.0
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Location"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Location not found"        
+  /persons/{personId}/connection:
+    post:
+      tags:
+      - "connection"
+      summary: "find Connection By PersonId"
+      description: ""
+      operationId: "findConnectionByPersonId"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "personId"
+        in: "path"
+        description: "ID of person to search"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Connection"
+definitions:
+  Person:
+    required:
+    - company_name
+    - first_name
+    - id
+    - last_name
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      first_name:
+        type: string
+        example: John
+      last_name:
+        type: string
+        example: Mayer
+      company_name:
+        type: string
+        example: Singer
+  Location:
+    required:
+    - person_id
+    - longitude
+    - latitude
+    - creation_time
+    type: object
+    properties:
+      person_id:
+        type: integer
+        example: 1
+      longitude:
+        type: number
+        example: 1.809090
+      latitude:
+        type: number
+        example: 1.809090
+      creation_time:
+        type: string
+        example: 01/01/2000        
+  Connection:
+    type: "object"
+    properties:
+      person:
+        $ref: "#/definitions/Person"
+      location:
+        $ref: "#/definitions/Location"    
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
