@@ -1,0 +1,8 @@
+UdaConnect-App was converted in 3 microservices based on responsibilities:
+Person Microservice - REST - responsible to list and register Person
+Location Microservice - REST - responsible to list and register Location
+Connection Microservice - REST - responsible to list Connection by User
+The frontEnd service consume the APis lo list Person and Connections
+Person Data can be sent concurrently and may affect the efficiency, was implemented gRPC communication server to persist
+new Person and maneged by Kafka cluster that receives the registers on module location_producer and consumed by the
+module location_consumer and persisted on database.
